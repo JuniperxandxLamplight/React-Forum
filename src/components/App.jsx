@@ -11,13 +11,13 @@ class App extends React.Component {
     super(props);
     this.state = {
       masterPostList: {
-        'Test-Post': {
-          title: 'A New Post',
-          text: 'Here is some text for this awesome post!',
-          username: 'user',
-          votes: 2,
-          id: 'Test-Post'
-        }
+          'Test-Post': {
+            title: 'A New Post',
+            text: 'Here is some text for this awesome post!',
+            username: 'user',
+            votes: 2,
+            id: 'Test-Post'
+          }
       },
       selectedPost: null
     };
@@ -33,7 +33,6 @@ class App extends React.Component {
 
   async handleUpvoting(post){
     await this.setState({selectedPost: post});
-
     const listToUpdate = this.state.masterPostList;
     listToUpdate[this.state.selectedPost].votes = listToUpdate[this.state.selectedPost].votes + 1;
     this.setState({masterPostList: listToUpdate});
@@ -41,11 +40,14 @@ class App extends React.Component {
 
   async handleDownvoting(post){
     await this.setState({selectedPost: post});
-
     const listToUpdate = this.state.masterPostList;
     listToUpdate[this.state.selectedPost].votes = listToUpdate[this.state.selectedPost].votes - 1;
     this.setState({masterPostList: listToUpdate});
   }
+
+  // handleOrganizingList() {
+  //   let sortedMasterPostList =
+  // }
 
   render() {
     return (
