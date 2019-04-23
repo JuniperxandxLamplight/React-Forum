@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Error404 from './Error404';
 import PostList from './PostList';
 import PostForm from './PostForm';
+import Moment from 'moment';
 
 class App extends React.Component {
 
@@ -11,13 +12,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       masterPostList: {
-          'Test-Post': {
-            title: 'A New Post',
-            text: 'Here is some text for this awesome post!',
-            username: 'user',
-            votes: 2,
-            id: 'Test-Post'
-          }
+
       },
       selectedPost: null
     };
@@ -25,6 +20,16 @@ class App extends React.Component {
     this.handleDownvoting = this.handleDownvoting.bind(this);
     this.handleAddNewPost = this.handleAddNewPost.bind(this);
   }
+
+  componentDidMount() {
+    this.waitTimeUpdateTimer = setInterval(() =>
+      this.updateElapseTime(),
+      5000
+    );
+  }
+  componentWillUnmount(){
+   clearInterval(this.waitTimeUpdateTimer);
+ }
 
   handleAddNewPost(newPost){
     let newMasterPostList = Object.assign({}, this.state.masterPostList, {[newPost.id]: newPost});
@@ -34,6 +39,8 @@ class App extends React.Component {
   async handleUpvoting(post){
     await this.setState({selectedPost: post});
     const listToUpdate = this.state.masterPostList;
+    console.log(listToUpdate)
+    console.log(this.state.selectedPost)
     listToUpdate[this.state.selectedPost].votes = listToUpdate[this.state.selectedPost].votes + 1;
     this.setState({masterPostList: listToUpdate});
   }
@@ -43,6 +50,15 @@ class App extends React.Component {
     const listToUpdate = this.state.masterPostList;
     listToUpdate[this.state.selectedPost].votes = listToUpdate[this.state.selectedPost].votes - 1;
     this.setState({masterPostList: listToUpdate});
+  }
+
+  updateElapseTime() {
+    console.log("check");
+    let newMasterPostList = this.state.masterPostList;
+    for (let post in newMasterPostList) {
+      newMasterPostList[post].formattedWaitTime = (newMasterPostList[post].timePosted).fromNow(true)
+    }
+    this.setState({masterPostList: newMasterPostList})
   }
 
   // handleOrganizingList() {
@@ -61,8 +77,18 @@ class App extends React.Component {
       </div>
     );
   }
+
 }
 
+
+
+// Test-Post': {
+//   title: 'A New Post',
+//   text: 'Here is some text for this awesome post!',
+//   username: 'user',
+//   votes: 2,
+//   id: 'Test-Post'
+// }
 
 
 export default App;
