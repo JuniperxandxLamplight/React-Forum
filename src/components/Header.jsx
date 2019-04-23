@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import NavBar from './NavBar';
 
 function Header(){
   return(
     <div>
-      <h1>Help Queue</h1>
-      <Link to="/">Home</Link> | <Link to="/newticket">Create Ticket</Link>
+      <NavBar></NavBar>
+      <h1>r/learnprogramming</h1>
     </div>
   );
 }
